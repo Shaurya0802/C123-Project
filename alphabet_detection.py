@@ -44,12 +44,12 @@ while True:
 
         cv2.rectangle(gray, upper_left, bottom_right, (0, 255, 0), 2)
 
-        roi = gray[upper_left[1]:bottom_right[1], upper_left[0], bottom_right[0]]
+        roi = gray[upper_left[1]:bottom_right[1], upper_left[0]:bottom_right[0]]
 
         im_pil = Image.fromarray(roi)
 
         image_bw = im_pil.convert("L")
-        image_bw_resized = image_bw.resize((28, 28), Image.ANTIALIAS)
+        image_bw_resized = image_bw.resize((22, 30), Image.ANTIALIAS)
         image_bw_resized_inverted = PIL.ImageOps.invert(image_bw_resized)
 
         pixel_filter = 20
@@ -59,7 +59,7 @@ while True:
         max_pixel = np.max(image_bw_resized_inverted)
         image_bw_resized_inverted_scaled = np.asarray(image_bw_resized_inverted_scaled) / max_pixel
 
-        test_sample = np.array(image_bw_resized_inverted_scaled).reshape(1, 784)
+        test_sample = np.array(image_bw_resized_inverted_scaled).reshape(1, 660)
         test_pred = clf.predict(test_sample)
 
         print(f"Predicted Class is: {test_pred}")
